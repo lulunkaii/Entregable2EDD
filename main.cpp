@@ -1,3 +1,5 @@
+// Leer el README antes de usar. Es la razón del por qué hay código comentado.
+
 #include <iostream>
 #include <string>
 #include "chrono"
