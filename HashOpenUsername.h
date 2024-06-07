@@ -17,10 +17,11 @@ struct UserInfo {
 
 // Clase que implementa una tabla hash con hashing abierto que toma como clave el user_name del usuario.
 class HashOpenUsername {
-    public:
+    private:
         int hashCapacity = 21997;    // Capacidad de la tabla hash. Es un número primo para mejor dispersión.
         int currentSize = 0;         // Tamaño actual (número de elementos) de la tabla hash
         list<UserInfo>* tabla;       // Array de listas. Cada posición del array contiene una lista de UserInfo
+        int hashFunction(string key); // Método para calcular el índice hash basado en la clave
         
     public:
         HashOpenUsername();          // Constructor
@@ -28,6 +29,5 @@ class HashOpenUsername {
         void remove(string key);     // Método para eliminar un elemento de la tabla hash
         bool search(string key);     // Método para buscar si un elemento está en la tabla hash
         int size();                  // Método para obtener el tamaño actual de la tabla hash
-        int hashFunction(string key); // Método para calcular el índice hash basado en la clave
         bool isEmpty();              // Método para verificar si la tabla hash está vacía
 };

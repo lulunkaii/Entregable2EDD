@@ -21,14 +21,14 @@ class HashOpenID {
         int hashCapacity = 21997;   // Capacidad de la tabla hash. Es un número primo para mejor dispersión
         int currentSize = 0;        // Tamaño actual (número de elementos) de la tabla hash
         list<IdInfo>* tabla;        // Array de listas. Cada posición del array contiene una lista de IdInfo
-        
+        int hashFunction(double key);  // Método para calcular el índice hash basado en la clave
+
     public:
         HashOpenID();               // Constructor
         void put(double key, IdInfo infoUser);  // Método para insertar un elemento en la tabla hash
         void remove(double key);    // Método para eliminar un elemento de la tabla hash
         bool search(double key);    // Método para buscar si un elemento está en la tabla hash
         int size();                 // Método para obtener el tamaño actual de la tabla hash
-        int hashFunction(double key);  // Método para calcular el índice hash basado en la clave
         bool isEmpty();             // Método para verificar si la tabla hash está vacía
 };
 
