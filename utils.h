@@ -33,4 +33,65 @@ std::vector<std::string> split(const std::string& s, char delimiter) {
     return tokens;
 }
 
+// Función para medir el tiempo de inserción
+template <typename HashTableInsert>
+double measure_insertion_time(HashTableInsert& table, User user) {
+    auto start = std::chrono::high_resolution_clock::now();
+    table.insert(user);
+    auto end = std::chrono::high_resolution_clock::now();
+    double running_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    return running_time * 1e-9;
+}
+
+template <typename HashTableSearchID>
+double measure_search_time_userID(HashTableSearchID& table, uint64_t userID) {
+    auto start = std::chrono::high_resolution_clock::now();
+    table.search(userID);
+    auto end = std::chrono::high_resolution_clock::now();
+    double running_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    return running_time * 1e-9;
+}
+
+template <typename HashTableSearchUsername>
+double measure_search_time_username(HashTableSearchUsername& table, std::string username) {
+    auto start = std::chrono::high_resolution_clock::now();
+    table.search(username);
+    auto end = std::chrono::high_resolution_clock::now();
+    double running_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    return running_time * 1e-9;
+}
+
+// Especificar las funciones para unordered_map
+double measure_insertion_time_unordered_map_userID(std::unordered_map<uint64_t, User>& map, const User& user) {
+    auto start = std::chrono::high_resolution_clock::now();
+    map[user.user_id] = user;
+    auto end = std::chrono::high_resolution_clock::now();
+    double running_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    return running_time * 1e-9;
+}
+
+double measure_insertion_time_unordered_map_username(std::unordered_map<std::string, User>& map, const User& user) {
+    auto start = std::chrono::high_resolution_clock::now();
+    map[user.user_name] = user;
+    auto end = std::chrono::high_resolution_clock::now();
+    double running_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    return running_time * 1e-9;
+}
+
+double measure_search_time_userID_unordered_map(std::unordered_map<uint64_t, User>& map, uint64_t userID) {
+    auto start = std::chrono::high_resolution_clock::now();
+    auto it = map.find(userID);
+    auto end = std::chrono::high_resolution_clock::now();
+    double running_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    return running_time * 1e-9;
+}
+
+double measure_search_time_username_unordered_map(std::unordered_map<std::string, User>& map, const std::string& username) {
+    auto start = std::chrono::high_resolution_clock::now();
+    auto it = map.find(username);
+    auto end = std::chrono::high_resolution_clock::now();
+    double running_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    return running_time * 1e-9;
+}
+
 #endif

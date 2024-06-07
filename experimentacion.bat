@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 REM Compilar el programa
-g++ -o main.exe main.cpp
+g++ -o main.exe main.cpp HashOpenID.cpp HashOpenUsername.cpp
 
 REM Verificar si la compilación fue exitosa
 if %errorlevel% neq 0 (
@@ -12,7 +12,7 @@ if %errorlevel% neq 0 (
 
 REM Número de iteraciones y valores de n
 set iterations=20
-set n_values= 21070
+set n_values=1000 5000 10000 15000 20000 21070
 
 REM Ejecutar el programa múltiples veces
 set experiment_number=1
