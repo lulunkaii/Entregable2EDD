@@ -4,7 +4,7 @@ Integrantes:
 -Diego Gutiérrez Mendoza (ElPerroGuaton)
 
 ## Caso hashing abierto
-Para el hashing abierto se enfrentó un problema al compilar para la experimentación. Se tenía los códigos por separado y al unirlos, no eran compatibles. Por esta razón no se incluye a HashOpen en la compilación por .bat.
+Para el hashing abierto se enfrentó un problema al compilar para la experimentación. Se tenía los códigos por separado y al unirlos, no eran compatibles. Por temas de tiempo se aplicó una solución algo rudimentaria. Por esta razón no se incluye a HashOpen en la compilación por .bat.
 Para resolver este problema se adjuntó a un archivo .csv diferente mediante el siguiente código:
 HashOpenID hashAbiertoID;
 INSERT para UserID:
