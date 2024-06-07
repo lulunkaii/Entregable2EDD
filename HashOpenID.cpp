@@ -6,95 +6,68 @@
 
 using namespace std;
 
-HashOpenID::HashOpenID(){
-
+// Constructor de la clase HashOpenID.
+HashOpenID::HashOpenID() {
+    // Inicializa la tabla hash
     tabla = new list<IdInfo>[hashCapacity];
-
-    for(int i=0; i< hashCapacity; i++){
-
-        tabla[i].clear();
-
-    }
-
 }
 
-void HashOpenID::put(double key, IdInfo infoUser){
-
-    int claveHash = hashFunction(key);
-
-    currentSize++;
-
-    infoUser.key = key;
-
-    tabla[claveHash].push_back(infoUser);
-
+// Método para insertar un elemento en la tabla hash.
+void HashOpenID::put(double key, IdInfo infoUser) {
+    int claveHash = hashFunction(key); // Calcula el índice hash para la clave.
+    currentSize++;                     // Incrementa el tamaño actual de la tabla.
+    tabla[claveHash].push_back(infoUser); // Inserta el elemento en la lista correspondiente al índice hash.
 }
 
-void HashOpenID::remove(double key){
-
-    int claveHash = hashFunction(key);
-    auto& cell = tabla[claveHash];
-    auto Iterador = begin(cell);
+// Método para eliminar un elemento de la tabla hash.
+void HashOpenID::remove(double key) {
+    int claveHash = hashFunction(key); // Calcula el índice hash para la clave.
+    auto& cell = tabla[claveHash];     // Obtiene la lista correspondiente al índice hash.
+    auto Iterador = begin(cell);       // Inicializa el iterador para recorrer la lista.
     bool llaveExiste = false;
 
-    for(; Iterador != end(cell);Iterador++){
-
-        if(Iterador->key == key){
-
+    // Recorre la lista buscando el elemento con la clave especificada.
+    for (; Iterador != end(cell); Iterador++) {
+        if (Iterador->user_id == key) {
             llaveExiste = true;
-            Iterador = cell.erase(Iterador);
-            currentSize--;
+            Iterador = cell.erase(Iterador); // Elimina el elemento de la lista.
+            currentSize--;                   // Decrementa el tamaño actual de la tabla.
             break;
         }
     }
-
-
 }
 
-bool HashOpenID::search(double key){
+// Método para buscar un elemento en la tabla hash.
+bool HashOpenID::search(double key) {
+    int claveHash = hashFunction(key); // Calcula el índice hash para la clave.
+    int i = 0;  // Contador por si no hay ningun elemento en la tabla
 
-    int claveHash = hashFunction(key);
-    int i=0;
-
-    while(tabla[claveHash].empty() == false && i<hashCapacity){
-
-        for(const auto& IdInfo : tabla[claveHash] ){
-        
-            if (IdInfo.key == key) {
-
+    // Mientras haya elementos en la lista correspondiente y no se haya recorrido toda la capacidad de la tabla.
+    while (tabla[claveHash].empty() == false && i < hashCapacity) {
+        // Recorre la lista buscando el elemento con la clave especificada.
+        for (const auto& IdInfo : tabla[claveHash]) {
+            if (IdInfo.user_id == key) {
                 return true;
             }
-
         }
-
         i++;
         claveHash++;
-        claveHash %= hashCapacity;
-
+        claveHash %= hashCapacity; // Asegura que el índice hash esté dentro de los límites de la tabla.
     }
-
     return false;
 }
 
-
-int HashOpenID::hashFunction(double key){
-
-    return fmod(key,hashCapacity);
-
+// Función hash para calcular el índice en la tabla hash.
+int HashOpenID::hashFunction(double key) {
+    return fmod(key, hashCapacity); // Calcula el índice usando el operador módulo.
 }
 
-int HashOpenID::size(){
-
+// Método para obtener el tamaño actual de la tabla hash.
+int HashOpenID::size() {
     return currentSize;
-
 }
 
-bool HashOpenID::isEmpty(){
-
-    if(currentSize == 0){
-        return true;
-    }
-
-    else return false;
-
+// Método para verificar si la tabla hash está vacía.
+bool HashOpenID::isEmpty() {
+    return currentSize == 0;
 }

@@ -4,36 +4,31 @@
 
 using namespace std;
 
-struct IdInfo{
-
-    double key;
-    string university;
-    string user_id;
-    string user_name;
-    string number_tweets;
-    string friends_count;
-    string followers_count;
-    string created_at;
-
+// Estructura que define la información del usuario.
+struct IdInfo {
+    string university;       // Universidad del usuario
+    double user_id;          // ID del usuario 
+    string user_name;        // Nombre del usuario
+    int number_tweets;       // Número de tweets del usuario
+    int friends_count;       // Cantidad de amigos del usuario
+    int followers_count;     // Cantidad de seguidores del usuario
+    string created_at;       // Fecha de creación del perfil
 };
 
-class HashOpenID{
-
+// Clase que implementa una tabla hash con hashing abierto que toma como clave el user_id del usuario.
+class HashOpenID {
+    private:
+        int hashCapacity = 21997;   // Capacidad de la tabla hash. Es un número primo para mejor dispersión
+        int currentSize = 0;        // Tamaño actual (número de elementos) de la tabla hash
+        list<IdInfo>* tabla;        // Array de listas. Cada posición del array contiene una lista de IdInfo
+        
     public:
-            
-            int hashCapacity = 21997;
-            int currentSize = 0;
-            list<IdInfo>* tabla;
-            
-    public:
-            HashOpenID();
-            void put(double key, IdInfo infoUser);
-            void remove(double key);
-            string get(double key);
-            bool search(double key);
-            int size();
-            int hashFunction(double key);
-            bool isEmpty();
-
+        HashOpenID();               // Constructor
+        void put(double key, IdInfo infoUser);  // Método para insertar un elemento en la tabla hash
+        void remove(double key);    // Método para eliminar un elemento de la tabla hash
+        bool search(double key);    // Método para buscar si un elemento está en la tabla hash
+        int size();                 // Método para obtener el tamaño actual de la tabla hash
+        int hashFunction(double key);  // Método para calcular el índice hash basado en la clave
+        bool isEmpty();             // Método para verificar si la tabla hash está vacía
 };
 
