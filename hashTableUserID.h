@@ -44,7 +44,7 @@ class HashTableUserID{
 
     public:
         HashTableUserID(int size, CollisionStrategy strategy): size(size), current_size(0), strategy(strategy){
-            this->size = nextPrime(size);
+            this->size = nextPrime(size + int(size*0.12));
             tabla = std::vector<User>(this->size);
             for (int i = 0; i < this->size; i++) {
                 tabla[i] = User();
@@ -66,13 +66,10 @@ class HashTableUserID{
                 if (tabla[index].user_id == 0 || tabla[index].user_id == -1) {
                     tabla[index] = user;
                     ++current_size;
-                    std::cout << "Inserted user at index: " << index << " (hash: " << hash << ", step: " << step << ", i: " << i << ")\n";
                     return;
                 }
                 ++i;
             }
-            std::cerr << "Failed to insert user: " << user.user_name << " (hash: " << hash << ", step: " << step << "). Reached maximum probing limit.\n";
-            std::cout << getCurrentSize() << std::endl;
         }
         bool search(uint64_t user_id){
             int hash = hashFunction(user_id);
@@ -83,7 +80,6 @@ class HashTableUserID{
             while (i < size) { 
                 hashResult = hashingMethod(hash, step, i);
                 if (tabla[hashResult].user_id == user_id) return true;
-                else if (tabla[hashResult].user_id == 0) return false;
                 ++i;
             }
             // recorrió toda la tabla sin encontrar el user

@@ -84,12 +84,10 @@ class HashTableUsername{
                     // Se encontró una posición vacia por lo que se puede insertar
                     tabla[index] = user;
                     ++current_size;
-                    std::cout << "Inserted user at index: " << index << std::endl;
                     return;
                 }
                 ++i;
             }
-            std::cerr << "Failed to insert user: " << user.user_name << " (hash: " << hash << ", step: " << step << "). Reached maximum probing limit.\n";
         }
         bool search(std::string user_name){
             int hash = hashFunction(user_name);
@@ -100,7 +98,6 @@ class HashTableUsername{
             while (i < size) { 
                 hashResult = hashingMethod(hash, step, i);
                 if (tabla[hashResult].user_name == user_name) return true;
-                else if (tabla[hashResult].user_name == "") return false;
                 ++i;
             }
             // recorrió toda la tabla sin encontrar el user
