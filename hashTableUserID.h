@@ -10,16 +10,16 @@ class HashTableUserID{
         User marca_eliminado;
         CollisionStrategy strategy;
 
-    int hashFunction(uint64_t key){
+    int hashFunction(unsigned long long key){
         return key % size; // clásico hash por módulo
     }
 
-    int secondHashFunction(uint64_t key){
+        int secondHashFunction(unsigned long long key){
         return 1 + (key % (size - 1)); 
     }
 
     int hashingMethod(int hash, int step, int i) const {
-        if (strategy == LINEAR_PROBING) return (hash + i) % size;
+        if (strategy == LINEAR_PROBING) return (hash++) % size;
         else if (strategy == QUADRATIC_PROBING) return (hash + i * i) % size;
         else if (strategy == DOUBLE_HASHING) return (hash + i * step) % size;
         return -1; // no debería llegar nunca acá
@@ -71,21 +71,25 @@ class HashTableUserID{
                 ++i;
             }
         }
-        bool search(uint64_t user_id){
-            int hash = hashFunction(user_id);
-            int step = secondHashFunction(user_id);
+        bool search(unsigned long long user_id){
+            unsigned long long int hash = hashFunction(user_id);
+            unsigned long long int step = secondHashFunction(user_id);
             int i = 0;
-            int hashResult;
+            unsigned long long int hashResult;
 
-            while (i < size) { 
+            while (i < size) {
                 hashResult = hashingMethod(hash, step, i);
                 if (tabla[hashResult].user_id == user_id) return true;
+                if (tabla[hashResult].user_id == 0) return false; 
+                if (tabla[hashResult].user_id == -1) {
+                    ++i;
+                    continue;
+                }
                 ++i;
             }
-            // recorrió toda la tabla sin encontrar el user
             return false;
         }
-        void remove(uint64_t user_id){
+        void remove(unsigned long long user_id){
             int hash = hashFunction(user_id);
             int step = secondHashFunction(user_id);
             int i = 0;

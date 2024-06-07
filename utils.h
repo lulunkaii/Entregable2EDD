@@ -4,7 +4,7 @@
 
 struct User {
     std::string university;
-    uint64_t user_id;
+    unsigned long long user_id;
     std::string user_name;
     int number_tweets;
     int friends_count;

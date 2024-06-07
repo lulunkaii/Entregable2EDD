@@ -19,6 +19,7 @@ double measure_insertion_time(HashTableInsert& table, User user) {
 template <typename HashTableSearchID>
 double measure_search_time_userID(HashTableSearchID& table, uint64_t userID) {
     std::cout<<table.search(userID)<<std::endl;
+    if (table.search(userID) == false)std::cout<<userID<<std::endl;
     auto start = std::chrono::high_resolution_clock::now();
     table.search(userID);
     auto end = std::chrono::high_resolution_clock::now();
@@ -140,6 +141,10 @@ int main(int argc, char** argv) {
 
     // Los datos ya fueron insertados anteriormente, por lo que se deberían encontrar
     // Buscar datos y medir tiempo
+    file.clear();
+    file.seekg(0, std::ios::beg);
+    std::getline(file, line); // quitar headers otra vez
+
     for (int i = 0; i < n; i++) {
         User user;
         std::getline(file, user.university, ',');
@@ -157,19 +162,20 @@ int main(int argc, char** argv) {
         std::getline(file, followers_count_str, ',');
         user.followers_count = std::stoi(followers_count_str);
         std::getline(file, user.created_at, '\n');
-        /*
+        
+        //std::cout<<LPtablaUserID.search(user.user_id)<<std::endl;
+        //std::cout<<QPtablaUserID.search(user.user_id)<<std::endl;
+        //std::cout<<DHtablaUserID.search(user.user_id)<<std::endl;
+
         total_time_LPUserID_search_found += measure_search_time_userID(LPtablaUserID, user.user_id);
+        //total_time_QPUserID_search_found += measure_search_time_userID(QPtablaUserID, user.user_id);
+        //total_time_DHUserID_search_found += measure_search_time_userID(DHtablaUserID, user.user_id);
         
-       
-        total_time_QPUserID_search_found += measure_search_time_userID(QPtablaUserID, user.user_id);
-        */
+        //total_time_LPUsername_search_found += measure_search_time_username(LPtablaUsername, user.user_name);
+        //total_time_QPUsername_search_found += measure_search_time_username(QPtablaUsername, user.user_name);
+        //total_time_DHUsername_search_found += measure_search_time_username(DHtablaUsername, user.user_name);
         
-        total_time_DHUserID_search_found += measure_search_time_userID(DHtablaUserID, user.user_id);
-        /*
-        total_time_LPUsername_search_found += measure_search_time_username(LPtablaUsername, user.user_name);
-        total_time_QPUsername_search_found += measure_search_time_username(QPtablaUsername, user.user_name);
-        total_time_DHUsername_search_found += measure_search_time_username(DHtablaUsername, user.user_name);
-        */
+        
     }
     /*
     // Guardar resultados en los archivos .csv

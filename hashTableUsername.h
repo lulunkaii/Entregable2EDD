@@ -37,7 +37,7 @@ class HashTableUsername{
     }
 
     int hashingMethod(int hash, int step, int i) const {
-        if (strategy == LINEAR_PROBING) return (hash + i) % size;
+        if (strategy == LINEAR_PROBING) return (hash++) % size;
         else if (strategy == QUADRATIC_PROBING) return (hash + i * i) % size;
         else if (strategy == DOUBLE_HASHING) return (hash + i * step) % size;
         return -1; // no debería llegar nunca acá
@@ -75,8 +75,8 @@ class HashTableUsername{
                 return;
             }
 
-            int hash = hashFunction(user.user_name);
-            int step = secondHashFunction(user.user_name);
+            unsigned long long int hash = hashFunction(user.user_name);
+            unsigned long long int step = secondHashFunction(user.user_name);
             int i = 0;
             while (i < size) { // Establecer un limite máximo de iteraciones
                 int index = hashingMethod(hash, step, i);
@@ -95,12 +95,16 @@ class HashTableUsername{
             int i = 0;
             int hashResult;
 
-            while (i < size) { 
+            while (i < size) {
                 hashResult = hashingMethod(hash, step, i);
                 if (tabla[hashResult].user_name == user_name) return true;
+                if (tabla[hashResult].user_name == "") return false;
+                if (tabla[hashResult].user_name == "<deleted>") {
+                    ++i;
+                    continue;
+                }
                 ++i;
             }
-            // recorrió toda la tabla sin encontrar el user
             return false;
         }
         void remove(std::string user_name){
